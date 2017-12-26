@@ -11,7 +11,8 @@ var gulp = require('gulp'),
     del = require('del'),
     htmlminify = require('gulp-html-minify'),
     autoprefixer = require('gulp-autoprefixer'),
-    spritesmith=require('gulp.spritesmith');
+    spritesmith=require('gulp.spritesmith'),
+	babel = require("gulp-babel");
     //os = require('os'),
     //child_process = require('child_process');
 
@@ -35,7 +36,7 @@ gulp.task('minifyJs', function(){
 //合并，并压缩JavaScript文件
 gulp.task('minifyConcatJs', function() {
     return gulp.src(['lib/*.js'])
-        .pipe(concat('PIE_WebGL.js')) //合并后的文件名
+        .pipe(concat('min.js')) //合并后的文件名
         //.pipe(rename('PIE_WebGL.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist/minifyConcat'));
@@ -110,4 +111,11 @@ gulp.task('sprite', function () {
             }
         }))
         .pipe(gulp.dest('dist/images'));
+});
+
+// 将ES6转成ES5
+gulp.task("es6toes5", function () {
+  return gulp.src("src/*.js")// ES6 源码存放的路径
+    .pipe(babel()) 
+    .pipe(gulp.dest("lib")); //转换成 ES5 存放的路径
 });
