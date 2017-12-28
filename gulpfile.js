@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),   //压缩css文件，减小文件大小
     imagemin = require('gulp-imagemin'), //压缩图片
     del = require('del'),
+	lzmajs = require('gulp-lzmajs'),
     htmlminify = require('gulp-html-minify'),
     autoprefixer = require('gulp-autoprefixer'),
     spritesmith=require('gulp.spritesmith'),
@@ -28,17 +29,25 @@ gulp.task('minifyJs', function(){
     // 1. 找到
     gulp.src('lib/*.js')
         // 2. 压缩
-        .pipe(uglify())
+        .pipe(uglify({
+			mangle: true,
+			compress:true,
+		}))
+		.pipe(lzmajs())
         // 3. 另存
         .pipe(gulp.dest('dist/minify'));
 });
 
 //合并，并压缩JavaScript文件
 gulp.task('minifyConcatJs', function() {
-    return gulp.src(['lib/*.js'])
+    return gulp.src(['lib/*/*/*.js'])
         .pipe(concat('min.js')) //合并后的文件名
         //.pipe(rename('PIE_WebGL.min.js'))
-        .pipe(uglify())
+        .pipe(uglify({
+			mangle: true,
+			compress:true,
+		}))
+		.pipe(lzmajs())
         .pipe(gulp.dest('dist/minifyConcat'));
 });
 
