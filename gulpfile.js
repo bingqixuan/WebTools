@@ -40,7 +40,7 @@ gulp.task('minifyJs', function(){
 
 //合并，并压缩JavaScript文件
 gulp.task('minifyConcatJs', function() {
-    return gulp.src(['lib/*/*/*.js'])
+    return gulp.src(['lib/*.js'])
         .pipe(concat('min.js')) //合并后的文件名
         //.pipe(rename('PIE_WebGL.min.js'))
         .pipe(uglify({
